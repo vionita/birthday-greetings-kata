@@ -22,7 +22,7 @@ public class AcceptanceTest {
 	@After
 	public void tearDown() throws Exception {
 		mailServer.stop();
-		Thread.sleep(200);
+		Thread.sleep(800);
 	}
 
 	@Test
