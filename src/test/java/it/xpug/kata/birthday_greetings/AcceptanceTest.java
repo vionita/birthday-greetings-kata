@@ -49,15 +49,4 @@ public class AcceptanceTest {
 		assertEquals("what? messages?", 0, mailServer.getReceivedEmailSize());
 	}
 
-
-	private class TestBirthdayService extends BirthdayService{
-
-		@Override
-		public void sendMessage(String smtpHost, int smtpPort, String email, String firstName) throws MessagingException{
-
-		}
-
-
-	}
-
 }
