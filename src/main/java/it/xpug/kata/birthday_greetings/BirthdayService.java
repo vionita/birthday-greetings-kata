@@ -15,6 +15,9 @@ import javax.mail.internet.MimeMessage;
 
 public class BirthdayService {
 
+	public static final String SUBJECT = "Happy Birthday!";
+	public static final String EMAIL_BODY_TEMPLATE = "Happy Birthday, dear %NAME%!";
+
 	public void sendGreetings(String fileName, XDate xDate, String smtpHost, int smtpPort) throws IOException, ParseException, AddressException, MessagingException {
 		BufferedReader in = new BufferedReader(new FileReader(fileName));
 		String str = "";
@@ -23,29 +26,36 @@ public class BirthdayService {
 			String[] employeeData = str.split(", ");
 			Employee employee = new Employee(employeeData[1], employeeData[0], employeeData[2], employeeData[3]);
 			if (employee.isBirthday(xDate)) {
-				String recipient = employee.getEmail();
-				String body = "Happy Birthday, dear %NAME%".replace("%NAME%", employee.getFirstName());
-				String subject = "Happy Birthday!";
-				sendMessage(smtpHost, smtpPort, "sender@here.com", subject, body, recipient);
+				sendMessage(smtpHost, smtpPort, employee.getEmail(), employee.getFirstName());
 			}
 		}
 	}
 
-	private void sendMessage(String smtpHost, int smtpPort, String sender, String subject, String body, String recipient) throws AddressException, MessagingException {
+	private void sendMessage(String smtpHost, int smtpPort, String email, String firstName) throws MessagingException {
+		Session session = configureMailSession(smtpHost, smtpPort);
+		Message msg = createMessage(session, email, firstName);
+		Transport.send(msg);
+	}
+
+	private Message createMessage(Session session, String employeeEmail, String firstName) throws MessagingException {
+		Message msg = new MimeMessage(session);
+		msg.setFrom(new InternetAddress("sender@here.com"));
+		msg.setRecipient(Message.RecipientType.TO, new InternetAddress(employeeEmail));
+		msg.setSubject(SUBJECT);
+		msg.setText(body(firstName));
+		return msg;
+	}
+
+	private Session configureMailSession(String smtpHost, int smtpPort) {
 		// Create a mail session
 		java.util.Properties props = new java.util.Properties();
 		props.put("mail.smtp.host", smtpHost);
 		props.put("mail.smtp.port", "" + smtpPort);
-		Session session = Session.getInstance(props, null);
-
-		// Construct the message
-		Message msg = new MimeMessage(session);
-		msg.setFrom(new InternetAddress(sender));
-		msg.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-		msg.setSubject(subject);
-		msg.setText(body);
-
-		// Send the message
-		Transport.send(msg);
+		return Session.getInstance(props, null);
 	}
+
+	private String body(String firstName) {
+		return EMAIL_BODY_TEMPLATE.replace("%NAME%", firstName);
+	}
+
 }
