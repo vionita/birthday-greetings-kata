@@ -13,8 +13,8 @@ public class MessageSender {
     public static final String SUBJECT = "Happy Birthday!";
     public static final String EMAIL_BODY_TEMPLATE = "Happy Birthday, dear %NAME%!";
 
-    public void sendMessage(String smtpHost, int smtpPort, String email, String firstName) throws MessagingException {
-        Session session = configureMailSession(smtpHost, smtpPort);
+    public void sendMessage(SmtpConfig smtpConfig, String email, String firstName) throws MessagingException {
+        Session session = configureMailSession(smtpConfig.getHost(), smtpConfig.getPort());
         Message msg = createMessage(session, email, firstName);
         Transport.send(msg);
     }

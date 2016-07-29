@@ -1,19 +1,19 @@
 package it.xpug.kata.birthday_greetings;
 
 public class SmtpConfig {
-    private final String smtpHost;
-    private final int smtpPort;
+    private final String host;
+    private final int port;
 
-    public SmtpConfig(String smtpHost, int smtpPort) {
-        this.smtpHost = smtpHost;
-        this.smtpPort = smtpPort;
+    public SmtpConfig(String host, int port) {
+        this.host = host;
+        this.port = port;
     }
 
-    public String getSmtpHost() {
-        return smtpHost;
+    public String getHost() {
+        return host;
     }
 
-    public int getSmtpPort() {
-        return smtpPort;
+    public int getPort() {
+        return port;
     }
 }
