@@ -19,7 +19,7 @@ public class BirthdayService {
 
 		for (Employee employee : employees){
 			if (employee.isBirthday(xDate)) {
-				new MessageSender().sendMessage(new SmtpConfig(smtpHost, smtpPort), employee.getEmail(), employee.getFirstName());
+				new MessageSender().sendMessage(new SmtpConfig(smtpHost, smtpPort), new Recipient(employee.getEmail(), employee.getFirstName()));
 			}
 		}
 	}

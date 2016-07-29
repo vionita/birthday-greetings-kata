@@ -13,9 +13,9 @@ public class MessageSender {
     public static final String SUBJECT = "Happy Birthday!";
     public static final String EMAIL_BODY_TEMPLATE = "Happy Birthday, dear %NAME%!";
 
-    public void sendMessage(SmtpConfig smtpConfig, String email, String firstName) throws MessagingException {
+    public void sendMessage(SmtpConfig smtpConfig, Recipient recipient) throws MessagingException {
         Session session = configureMailSession(smtpConfig.getHost(), smtpConfig.getPort());
-        Message msg = createMessage(session, email, firstName);
+        Message msg = createMessage(session, recipient.getEmail(), recipient.getFirstName());
         Transport.send(msg);
     }
 
