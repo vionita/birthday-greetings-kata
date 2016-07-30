@@ -12,13 +12,16 @@ import javax.mail.MessagingException;
 public class AcceptanceTest {
 
 	private static final int NONSTANDARD_PORT = 9999;
-	private BirthdayService birthdayService;
 	private SimpleSmtpServer mailServer;
+
+	private BirthdayService birthdayService;
 
 	@Before
 	public void setUp() throws Exception {
 		mailServer = SimpleSmtpServer.start(NONSTANDARD_PORT);
-		birthdayService = new BirthdayService();
+
+
+		birthdayService = new BirthdayService(new MessageSender());
 	}
 
 	@After
