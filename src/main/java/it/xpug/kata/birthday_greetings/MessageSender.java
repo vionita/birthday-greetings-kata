@@ -10,26 +10,33 @@ import javax.mail.internet.MimeMessage;
 
 public class MessageSender {
 
-    public static final String SUBJECT = "Happy Birthday!";
+    public static final String EMAIL_SENDER = "sender@here.com";
+    public static final String EMAIL_SUBJECT = "Happy Birthday!";
     public static final String EMAIL_BODY_TEMPLATE = "Happy Birthday, dear %NAME%!";
 
-    public void sendMessage(SmtpConfig smtpConfig, Recipient recipient) throws MessagingException {
+    private SmtpConfig smtpConfig;
+
+    public MessageSender(SmtpConfig smtpConfig) {
+        this.smtpConfig = smtpConfig;
+    }
+
+
+    public void sendGreetingTo(Recipient recipient) throws MessagingException {
         Session session = configureMailSession(smtpConfig.getHost(), smtpConfig.getPort());
-        Message msg = createMessage(session, recipient.getEmail(), recipient.getFirstName());
+        Message msg = createMessage(session, recipient.getEmail(), body(recipient.getFirstName()));
         Transport.send(msg);
     }
 
-    private Message createMessage(Session session, String employeeEmail, String firstName) throws MessagingException {
+    private Message createMessage(Session session, String recipientEmail, String body) throws MessagingException {
         Message msg = new MimeMessage(session);
-        msg.setFrom(new InternetAddress("sender@here.com"));
-        msg.setRecipient(Message.RecipientType.TO, new InternetAddress(employeeEmail));
-        msg.setSubject(SUBJECT);
-        msg.setText(body(firstName));
+        msg.setFrom(new InternetAddress(EMAIL_SENDER));
+        msg.setRecipient(Message.RecipientType.TO, new InternetAddress(recipientEmail));
+        msg.setSubject(EMAIL_SUBJECT);
+        msg.setText(body);
         return msg;
     }
 
     private Session configureMailSession(String smtpHost, int smtpPort) {
-        // Create a mail session
         java.util.Properties props = new java.util.Properties();
         props.put("mail.smtp.host", smtpHost);
         props.put("mail.smtp.port", "" + smtpPort);

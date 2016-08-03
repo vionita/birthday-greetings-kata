@@ -15,13 +15,13 @@ public class BirthdayService {
 		this.messageSender = messageSender;
 	}
 
-	public void sendGreetings(String fileName, XDate xDate, String smtpHost, int smtpPort) throws IOException, ParseException, AddressException, MessagingException {
+	public void sendGreetings(String fileName, XDate xDate) throws IOException, ParseException, AddressException, MessagingException {
 
 		List<Employee> employees = new EmployeeRepository().getAllEmployees(fileName);
 
 		for (Employee employee : employees){
 			if (employee.isBirthday(xDate)) {
-				messageSender.sendMessage(new SmtpConfig(smtpHost, smtpPort), new Recipient(employee.getEmail(), employee.getFirstName()));
+				messageSender.sendGreetingTo(new Recipient(employee.getEmail(), employee.getFirstName()));
 			}
 		}
 	}
