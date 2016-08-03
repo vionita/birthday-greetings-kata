@@ -6,8 +6,6 @@ import org.junit.*;
 
 import com.dumbster.smtp.*;
 
-import javax.mail.MessagingException;
-
 
 public class AcceptanceTest {
 
@@ -21,7 +19,7 @@ public class AcceptanceTest {
 		mailServer = SimpleSmtpServer.start(NONSTANDARD_PORT);
 
 
-		birthdayService = new BirthdayService(new MessageSender(new SmtpConfig("localhost", NONSTANDARD_PORT)));
+		birthdayService = new BirthdayService(new EmailGreetingsSender(new SmtpConfig("localhost", NONSTANDARD_PORT)));
 	}
 
 	@After

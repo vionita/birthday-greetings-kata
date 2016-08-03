@@ -8,7 +8,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class MessageSender {
+public class EmailGreetingsSender implements GreetingsSender {
 
     public static final String EMAIL_SENDER = "sender@here.com";
     public static final String EMAIL_SUBJECT = "Happy Birthday!";
@@ -16,14 +16,15 @@ public class MessageSender {
 
     private SmtpConfig smtpConfig;
 
-    public MessageSender(SmtpConfig smtpConfig) {
+    public EmailGreetingsSender(SmtpConfig smtpConfig) {
         this.smtpConfig = smtpConfig;
     }
 
 
-    public void sendGreetingTo(Recipient recipient) throws MessagingException {
+    @Override
+    public void greet(Employee employee) throws MessagingException {
         Session session = configureMailSession(smtpConfig.getHost(), smtpConfig.getPort());
-        Message msg = createMessage(session, recipient.getEmail(), body(recipient.getFirstName()));
+        Message msg = createMessage(session, employee.getEmail(), body(employee.getFirstName()));
         Transport.send(msg);
     }
 

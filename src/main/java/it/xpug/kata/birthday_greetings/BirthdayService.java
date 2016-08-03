@@ -9,10 +9,10 @@ import java.util.List;
 public class BirthdayService {
 
 
-	private MessageSender messageSender;
+	private GreetingsSender greetingsSender;
 
-	public BirthdayService(MessageSender messageSender) {
-		this.messageSender = messageSender;
+	public BirthdayService(GreetingsSender greetingsSender) {
+		this.greetingsSender = greetingsSender;
 	}
 
 	public void sendGreetings(String fileName, XDate xDate) throws IOException, ParseException, AddressException, MessagingException {
@@ -21,7 +21,7 @@ public class BirthdayService {
 
 		for (Employee employee : employees){
 			if (employee.isBirthday(xDate)) {
-				messageSender.sendGreetingTo(new Recipient(employee.getEmail(), employee.getFirstName()));
+				greetingsSender.greet(employee);
 			}
 		}
 	}
