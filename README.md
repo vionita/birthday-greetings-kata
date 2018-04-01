@@ -4,15 +4,13 @@ This is a simple refactoring exercise that is meant to teach something about dep
 
 The documentation is in  [this blog bost](http://matteo.vaccari.name/blog/archives/154) and in the presentation in the doc directory.
 
-## Setup
+## Prerequisites
+`JDK 1.8`  
+`gradle`
 
-To import the project in Eclipse: select
+Run
 
-    File -> Import -> Existing Project into Workspace
-
-To import the project in Idea: run
-
-    mvn idea:idea
+    gradle build
 
 ## How to start
 

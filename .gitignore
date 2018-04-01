@@ -6,3 +6,5 @@ target
 .project
 *.iml
 .DS_Store
+.gradle
+build
